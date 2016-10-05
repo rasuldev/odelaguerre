@@ -10,6 +10,8 @@ namespace Tests
     [TestFixture]
     public class OdeSolverTests
     {
+        private const double Tolerance = 0.00001;
+
         [Test]
         public void QTest()
         {
@@ -71,6 +73,19 @@ namespace Tests
             var h = Range(0,5).Select(solver.HCoeffs).ToArray();
         }
 
+        [Test]
+        public void BinomsProductSumTest()
+        {
+            
+            var rand = new Random();
+            for (int i = 0; i < 3; i++)
+            {
+                var s = rand.Next(20);
+                var k = rand.Next(20);
+                if (s == k) continue;
+                Assert.That(OdeSolverStub.BinomsProductSum(Max(s,k), Min(s,k)), Is.EqualTo(0).Within(Tolerance));
+            }
+        }
 
         private class OdeSolverStub : OdeSolver
         {

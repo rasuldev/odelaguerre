@@ -33,6 +33,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DiscreteFunctions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Progs\cs\dsp\LabUI\bin\Debug\DiscreteFunctions.dll</HintPath>
+    </Reference>
+    <Reference Include="DiscreteFunctionsPlots">
+      <HintPath>..\..\..\..\..\Progs\cs\dsp\LabUI\bin\Debug\DiscreteFunctionsPlots.dll</HintPath>
+    </Reference>
+    <Reference Include="GraphBuilders">
+      <HintPath>..\..\..\..\..\Progs\cs\dsp\LabUI\bin\Debug\GraphBuilders.dll</HintPath>
+    </Reference>
     <Reference Include="mathlib">
       <HintPath>..\..\..\..\..\Progs\cs\mathlib\mathlib\bin\Debug\mathlib.dll</HintPath>
     </Reference>
@@ -47,6 +57,12 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="TeeChart">
+      <HintPath>..\..\..\..\..\Progs\cs\dsp\LabUI\bin\Debug\TeeChart.dll</HintPath>
+    </Reference>
+    <Reference Include="TeeChart.OpenGL">
+      <HintPath>..\..\..\..\..\Progs\cs\dsp\LabUI\bin\Debug\TeeChart.OpenGL.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Form1.cs">
@@ -56,8 +72,12 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="OdeSolver.cs" />
+    <Compile Include="OdeSolverExp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

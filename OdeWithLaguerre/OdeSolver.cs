@@ -27,6 +27,42 @@ namespace OdeWithLaguerre
 
         }
 
+        public Func<double, double> GetApproxSolution(int coeffsCount)
+        {
+            var coeffs = CalcCoeffs(coeffsCount);
+            return x =>
+            {
+                var r = _initialConditions.Length;
+                var val = 0d;
+                for (int k = 0; k < coeffsCount; k++)
+                {
+                    val += coeffs[k]*LaguerreSobolev.Get(r, k)(x);
+                }
+
+                return val;
+            };
+
+        }
+
+        public double[] CalcCoeffs(int count)
+        {
+            var r = _initialConditions.Length;
+            var coeffs = new double[count];
+            Array.Copy(_initialConditions, coeffs, Min(r, count));
+
+            var mul = 1 / (QCoeffs(0) + 1);
+            for (int k = 0; r + k < count; k++)
+            {
+                coeffs[r + k] = PCoeffs(k);
+                for (int i = 1; i <= k; i++)
+                {
+                    coeffs[r + k] -= (QCoeffs(i) - QCoeffs(i - 1)) * coeffs[r + k - i];
+                }
+                coeffs[r + k] *= mul;
+            }
+            return coeffs;
+        }
+
         public double QCoeffs(int nu)
         {
             int r = _coeffs.Length;
@@ -46,7 +82,7 @@ namespace OdeWithLaguerre
         public double PCoeffs(int s)
         {
             return HCoeffs(s) - PSecondPart(s);
-            
+
         }
 
         /// <summary>
@@ -84,12 +120,14 @@ namespace OdeWithLaguerre
             for (int j = 1; j <= s; j++)
             {
                 sum += sign * Binomial.Calc(s, j) * Binomial.Calc(k + j, j);
+                sign *= -1;
             }
             return sum;
         }
 
-        public double HCoeffs(int s)
+        public virtual double HCoeffs(int s)
         {
+            // TODO: use Gauss quadrature formula
             var coeffSym = mathlib.ScalarMul.LebesgueLaguerre(_right, Laguerre.Get(s));
             return Integrals.RectangularInfinite(coeffSym, 100000, 10);
         }
